@@ -9,7 +9,7 @@ final_data = []
 coordinates = ['23.777176,90.399452']
 keywords = ['all_restaurants_in_bangladesh']
 radius = '1000'
-api_key = 'AIzaSyD1qkItnF9DfuqEyaA6NIyfB11W2G2udyI'  # insert your Places API
+api_key = ''  # insert your Places API
 for coordinate in coordinates:
     for keyword in keywords:
         url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + coordinate + '&radius=' + str(
