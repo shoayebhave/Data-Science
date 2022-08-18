@@ -1,0 +1,92 @@
+# Sub Query
+
+use shoayeb;
+select * from emp where Salary > (select Salary from emp where E_name ="Ravi");
+select * from emp;
+select e_id,E_name,Salary from emp where e_id in (select e_id from location where p_name="IOT");
+
+#Stored Procedure
+
+delimiter &&
+create procedure top_players()
+begin 
+select E_name, Dept, Salary from emp where Salary > 20000;
+end &&
+delimiter ;
+
+call top_players();
+
+#Stored Procedure Using IN
+
+delimiter &&
+create procedure top()
+begin 
+select * from emp where Salary in (20000,30000,40000);
+end &&
+delimiter ;
+call top()
+
+delimiter //
+create procedure tops( in var int)
+begin 
+select * from emp order by Salary desc limit var;
+end //
+delimiter ;
+call tops(3);
+
+delimiter //
+create procedure Spout(OUT total_emp int)
+begin
+select count(E_name) into total_emp from emp where Dept="HR";
+end //
+delimiter ;
+
+call Spout(@hr);
+select @hr as Department; 
+
+# Trigger In MYSQL
+
+Create table student(
+st_roll int, age int, name varchar(20), mark float);
+
+delimiter //
+create trigger mark_verify
+before insert on shoayeb.student
+for each row 
+if new.mark<0 then set new.mark=50;
+end if; //
+
+insert into student (st_roll,age,name,mark) 
+values
+(101,10,"Ruth",75.0),
+(102,12,"Mike",-30),
+(103,11,"Rakib",80.0),
+(104,11,"Mubarak",-33);
+
+ #drop trigger mark_verify;
+ 
+ #VIEW In MYSQL
+ create view My_Table
+ as
+ select st_roll, name,mark from student;
+ select * from my_table;
+ 
+ create view join_as
+ as
+ select e.e_id,a.e_name,a.address, e.Dept,e.Salary from address as a 
+ join
+ emp as e on a.e_id=e.e_id
+ 
+ select * from join_as;
+ 
+ #Rename Description
+ rename table join_as
+ to Employee_description;
+ 
+ #Display All View
+ show full tables
+ where table_type= "VIEW";
+ #Drop View
+ #drop view my_table;
+ 
+ 
